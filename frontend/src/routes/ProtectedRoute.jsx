@@ -1,9 +1,15 @@
 import { Navigate } from 'react-router-dom'
 
-export default function ProtectedRoute({ children, redirectTo = '/login' }) {
-  const isAuthenticated = false
+import Loading from '../components/common/Loading'
+import { useAuth } from '../context/useAuth'
 
-  // Replace this placeholder with real auth state/context in the next phase.
+export default function ProtectedRoute({ children, redirectTo = '/login' }) {
+  const { isAuthenticated, loading } = useAuth()
+
+  if (loading) {
+    return <Loading message="Checking your session..." />
+  }
+
   if (!isAuthenticated) {
     return <Navigate to={redirectTo} replace />
   }

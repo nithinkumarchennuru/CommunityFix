@@ -1,18 +1,22 @@
 import { NavLink } from 'react-router-dom'
+import { useAuth } from '../../context/useAuth'
 
 const navigation = [
-  { label: 'Overview', to: '/resident' },
-  { label: 'Worker View', to: '/worker' },
-  { label: 'Admin View', to: '/admin' },
+  { label: 'Overview', to: '/resident', role: 'resident' },
+  { label: 'Worker View', to: '/worker', role: 'worker' },
+  { label: 'Admin View', to: '/admin', role: 'admin' },
 ]
 
 export default function Sidebar() {
+  const { role } = useAuth()
+  const visibleNavigation = navigation.filter((item) => item.role === role)
+
   return (
     <aside className="hidden w-64 shrink-0 rounded-2xl bg-slate-900 p-4 text-slate-200 lg:block">
       <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">Navigation</p>
 
       <nav className="space-y-2">
-        {navigation.map(({ label, to }) => (
+        {visibleNavigation.map(({ label, to }) => (
           <NavLink
             key={to}
             to={to}
