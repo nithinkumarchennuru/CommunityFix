@@ -1,17 +1,21 @@
 import { NavLink } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { useAuth } from '../../context/useAuth'
 
 const navigation = [
   { label: 'Dashboard', to: '/resident', role: 'resident' },
   { label: 'Report problem', to: '/resident/report', role: 'resident' },
   { label: 'My problems', to: '/resident/problems', role: 'resident' },
-  { label: 'Worker View', to: '/worker', role: 'worker' },
+  { label: 'Worker Dashboard', to: '/worker', role: 'worker' },
+  { label: 'My Jobs', to: '/worker/jobs', role: 'worker' },
+  { label: 'Availability', to: '/worker/availability', role: 'worker' },
   { label: 'Admin View', to: '/admin', role: 'admin' },
 ]
 
 export default function Sidebar() {
   const { role } = useAuth()
-  const navigationRole = role || 'resident'
+  const { pathname } = useLocation()
+  const navigationRole = role || (pathname.startsWith('/worker') ? 'worker' : 'resident')
   const visibleNavigation = navigation.filter((item) => item.role === navigationRole)
 
   return (
@@ -23,7 +27,7 @@ export default function Sidebar() {
           <NavLink
             key={to}
             to={to}
-            end={to === '/resident'}
+            end={to === '/resident' || to === '/worker'}
             className={({ isActive }) =>
               [
                 'flex shrink-0 items-center rounded-lg px-3 py-2 text-sm font-medium transition-colors',

@@ -10,6 +10,9 @@ import ReportProblemPage from '../pages/resident/ReportProblemPage'
 import MyProblemsPage from '../pages/resident/MyProblemsPage'
 import ProblemDetailsPage from '../pages/resident/ProblemDetailsPage'
 import WorkerPage from '../pages/worker/WorkerPage'
+import MyJobsPage from '../pages/worker/MyJobsPage'
+import WorkerAvailabilityPage from '../pages/worker/WorkerAvailabilityPage'
+import JobDetailsPage from '../pages/worker/JobDetailsPage'
 import ProtectedRoute from './ProtectedRoute'
 
 export default function AppRoutes() {
@@ -39,11 +42,16 @@ export default function AppRoutes() {
         element={
           <ProtectedRoute>
             <AppLayout>
-              <WorkerPage />
+              <Outlet />
             </AppLayout>
           </ProtectedRoute>
         }
-      />
+      >
+        <Route index element={<WorkerPage />} />
+        <Route path="jobs" element={<MyJobsPage />} />
+        <Route path="jobs/:jobId" element={<JobDetailsPage />} />
+        <Route path="availability" element={<WorkerAvailabilityPage />} />
+      </Route>
       <Route
         path="/admin"
         element={
