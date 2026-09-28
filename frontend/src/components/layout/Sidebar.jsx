@@ -9,13 +9,16 @@ const navigation = [
   { label: 'Worker Dashboard', to: '/worker', role: 'worker' },
   { label: 'My Jobs', to: '/worker/jobs', role: 'worker' },
   { label: 'Availability', to: '/worker/availability', role: 'worker' },
-  { label: 'Admin View', to: '/admin', role: 'admin' },
+  { label: 'Admin Dashboard', to: '/admin', role: 'admin' },
+  { label: 'Issues and Jobs', to: '/admin/issues', role: 'admin' },
+  { label: 'Workers', to: '/admin/workers', role: 'admin' },
+  { label: 'Users and Residents', to: '/admin/users', role: 'admin' },
 ]
 
 export default function Sidebar() {
   const { role } = useAuth()
   const { pathname } = useLocation()
-  const navigationRole = role || (pathname.startsWith('/worker') ? 'worker' : 'resident')
+  const navigationRole = role || (pathname.startsWith('/worker') ? 'worker' : pathname.startsWith('/admin') ? 'admin' : 'resident')
   const visibleNavigation = navigation.filter((item) => item.role === navigationRole)
 
   return (
@@ -27,7 +30,7 @@ export default function Sidebar() {
           <NavLink
             key={to}
             to={to}
-            end={to === '/resident' || to === '/worker'}
+            end={to === '/resident' || to === '/worker' || to === '/admin'}
             className={({ isActive }) =>
               [
                 'flex shrink-0 items-center rounded-lg px-3 py-2 text-sm font-medium transition-colors',

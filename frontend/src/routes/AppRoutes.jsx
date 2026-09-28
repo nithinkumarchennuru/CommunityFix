@@ -4,6 +4,13 @@ import AppLayout from '../components/layout/AppLayout'
 import LoginPage from '../pages/auth/LoginPage'
 import RegisterPage from '../pages/auth/RegisterPage'
 import AdminPage from '../pages/admin/AdminPage'
+import AdminIssuesPage from '../pages/admin/AdminIssuesPage'
+import AdminIssueDetailsPage from '../pages/admin/AdminIssueDetailsPage'
+import AdminWorkersPage from '../pages/admin/AdminWorkersPage'
+import AdminWorkerDetailsPage from '../pages/admin/AdminWorkerDetailsPage'
+import AdminUsersPage from '../pages/admin/AdminUsersPage'
+import AdminUserDetailsPage from '../pages/admin/AdminUserDetailsPage'
+import AdminNotFoundPage from '../pages/admin/AdminNotFoundPage'
 import DiagnosticsPage from '../pages/DiagnosticsPage'
 import ResidentPage from '../pages/resident/ResidentPage'
 import ReportProblemPage from '../pages/resident/ReportProblemPage'
@@ -56,12 +63,19 @@ export default function AppRoutes() {
         path="/admin"
         element={
           <ProtectedRoute>
-            <AppLayout>
-              <AdminPage />
-            </AppLayout>
+            <AppLayout><Outlet /></AppLayout>
           </ProtectedRoute>
         }
-      />
+      >
+        <Route index element={<AdminPage />} />
+        <Route path="issues" element={<AdminIssuesPage />} />
+        <Route path="issues/:issueId" element={<AdminIssueDetailsPage />} />
+        <Route path="workers" element={<AdminWorkersPage />} />
+        <Route path="workers/:workerId" element={<AdminWorkerDetailsPage />} />
+        <Route path="users" element={<AdminUsersPage />} />
+        <Route path="users/:userId" element={<AdminUserDetailsPage />} />
+        <Route path="*" element={<AdminNotFoundPage />} />
+      </Route>
       <Route
         path="/diagnostics"
         element={
